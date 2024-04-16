@@ -1,12 +1,20 @@
 import express from 'express';
 import { tasksData } from './tasksData';
 import { v4 as uuidv4 } from 'uuid';
+import asyncHandler from 'express-async-handler';
 
 const router = express.Router(); 
 
 router.get('/', (req, res) => {
     res.json(tasksData);
 });
+
+// create a task
+router.post('/', asyncHandler(async (req, res) => {
+    const task = await Task(req.body).save();
+    res.status(201).json(task);
+}));
+
 
 // Get task details
 router.get('/:id', (req, res) => {

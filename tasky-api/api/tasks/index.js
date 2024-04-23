@@ -9,6 +9,12 @@ router.get('/', (req, res) => {
     res.json(tasksData);
 });
 
+// Get all tasks
+router.get('/', async (req, res) => {
+    const tasks = await Task.find().populate('userId', 'username');
+    res.status(200).json(tasks);
+});
+
 // create a task
 router.post('/', asyncHandler(async (req, res) => {
     const task = await Task(req.body).save();

@@ -1,11 +1,16 @@
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
+// other imports
+import cors from 'cors';
 
 dotenv.config();
 
 // Connect to database
 mongoose.connect(process.env.MONGO_DB);
 const db = mongoose.connection;
+
+// Enable CORS for all requests
+app.use(cors());
 
 const errHandler = (err, req, res, next) => {
     /* if the error in development then send stack trace to display whole error,

@@ -5,6 +5,7 @@ import usersRouter from './api/users';
 import './db';
 import defaultErrHandler from './errHandler'
 
+
 dotenv.config();
 
 const app = express();

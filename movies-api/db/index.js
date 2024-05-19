@@ -1,29 +1,18 @@
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 
-// Load environment variables from .env file
-dotenv.config({ path: './.env' });
-
-// Print the MongoDB URI to check if it's being loaded correctly
-console.log(`MongoDB URI: ${process.env.MONGO_DB}`);
-
-const mongoURI = process.env.MONGO_DB;
-
-if (!mongoURI) {
-  throw new Error('The MONGO_DB environment variable is not set.');
-}
+dotenv.config();
 
 // Connect to database
-mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => {
-    console.log('Database connected successfully');
-  })
-  .catch((err) => {
-    console.error(`Database connection error: ${err}`);
-  });
-
+mongoose.connect(process.env.MONGO_DB);
 const db = mongoose.connection;
 
-db.on('disconnected', () => {
-  console.log('Database disconnected');
+db.on('error', (err) => {
+    console.log(`database connection error: ${err}`);
 });
+db.on('disconnected', () => {
+    console.log('database disconnected');
+});
+db.once('open', () => {
+    console.log(`database connected to ${db.name} on ${db.host}`);
+})
